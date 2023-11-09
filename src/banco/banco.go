@@ -2,23 +2,29 @@ package banco
 
 import (
 	"database/sql"
-	"mstracker_api/src/config"
+	"fmt"
+	config "mstracker_api/src/configs"
 
-	_ "github.com/go-sql-driver/mysql" // Driver
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // Conectar abre a conexão com o banco de dados e a retorna
 func Conectar() (*sql.DB, error) {
-	db, erro := sql.Open("mysql", config.StringConexaoBanco)
+    fmt.Println("opaaaaaaaaa")
+    // Abra a conexão com o banco de dados MySQL
+    db, err := sql.Open("mysql",  config.StringConexaoBanco)
 
-	if erro != nil {
-		return nil, erro
-	}
+    if err != nil {
+        return nil, err
+    }
 
-	if erro = db.Ping(); erro != nil {
-		db.Close()
-		return nil, erro
-	}
+    // Verifique se a conexão com o banco de dados é válida
+    if err = db.Ping(); err != nil {
+        db.Close()
+        return nil, err
+    }
 
-	return db, nil
-}	
+    fmt.Println("Passsou do ping uuuhuuu!!!!!!")
+    
+    return db, nil
+}
